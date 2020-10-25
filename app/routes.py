@@ -3,7 +3,7 @@ import logging
 import flask
 from flask import Response
 
-from api import ProfileData, ProfileNotAvailable
+from app.api import ProfileData, ProfileNotAvailable
 
 app = flask.Flask("user_profiles_api")
 logger = flask.logging.create_logger(app)
