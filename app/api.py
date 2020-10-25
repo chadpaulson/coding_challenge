@@ -19,8 +19,8 @@ class ProfileData(object):
 
     def fetch_profile_data(self):
         """fetch and format profile data."""
-        self.load_bitbucket()
-        self.load_github()
+        self.bitbucket_repos = self.load_bitbucket()
+        self.github_repos = self.load_github()
 
         languages = defaultdict(int)
         watchers = 0
@@ -53,20 +53,20 @@ class ProfileData(object):
             'forked_repos': forked_repos
         }
 
-    def load_github(self):
-        """request github profile api endpoint."""
-        url = 'https://api.github.com/users/{}/repos'.format(self.username)
-        response = requests.get(url)
-        if response.status_code == 200:
-            self.github_repos = response.json()
-        else:
-            raise ProfileNotAvailable
-
     def load_bitbucket(self):
         """request bitbucket profile api endpoint."""
         url = 'https://api.bitbucket.org/2.0/repositories/{}'.format(self.username)
         response = requests.get(url)
         if response.status_code == 200:
-            self.bitbucket_repos = response.json()['values']
+            return response.json()['values']
+        else:
+            raise ProfileNotAvailable
+
+    def load_github(self):
+        """request github profile api endpoint."""
+        url = 'https://api.github.com/users/{}/repos'.format(self.username)
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.json()
         else:
             raise ProfileNotAvailable
