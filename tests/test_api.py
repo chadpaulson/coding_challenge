@@ -10,7 +10,8 @@ class APITestCase(unittest.TestCase):
 
     @mock.patch('app.api.ProfileData.load_bitbucket', return_value=bitbucket)
     @mock.patch('app.api.ProfileData.load_github', return_value=github)
-    def test_one(self, load_bitbucket, load_github):
+    def test_fetch_profile_data(self, load_bitbucket, load_github):
+        """ Ensures merged data is calculated and formatted correctly. """
         profile = ProfileData(username='mailchimp')
         data = profile.fetch_profile_data()
 
