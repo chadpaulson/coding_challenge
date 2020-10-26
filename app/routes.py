@@ -15,11 +15,9 @@ def profile(username):
     profile = ProfileData(username=username)
     try:
         profile_data = profile.fetch_profile_data()
+        return flask.jsonify(profile_data)
     except ProfileNotAvailable:
-        profile_data = {'error': 'Could not find profile.'}
-
-    return flask.jsonify(profile_data)
-
+        return Response("Could not find profile.", status=404)
 
 @app.route("/health-check", methods=["GET"])
 def health_check():
